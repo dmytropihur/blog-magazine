@@ -1,13 +1,14 @@
 import { MainLayout } from "./components/MainLayout";
-import { LogIn } from "./pages/LogIn";
-import { Registration } from "./pages/Registration/Registration";
+import { Providers } from "./providers";
+import { AppRoutes } from "./routes";
 
 function App() {
   return (
-    <MainLayout>
-      <Registration />
-      <LogIn />
-    </MainLayout>
+    <Providers>
+      <MainLayout>
+        <AppRoutes/>
+      </MainLayout>
+    </Providers>
   );
 }
 
