@@ -1,12 +1,13 @@
-import { NavBar } from "./components/NavBar";
-import { Registration } from "./pages/Registration";
+import { MainLayout } from "./components/MainLayout";
+import { LogIn } from "./pages/LogIn";
+import { Registration } from "./pages/Registration/Registration";
 
 function App() {
   return (
-    <>
-    <NavBar/>
-    <Registration/>
-    </>
+    <MainLayout>
+      <Registration />
+      <LogIn />
+    </MainLayout>
   );
 }
 
