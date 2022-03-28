@@ -1,22 +1,32 @@
+import React from 'react';
 import { Container, Nav, Navbar, NavDropdown } from "react-bootstrap";
+import { LinkContainer } from "react-router-bootstrap";
 
 export const NavBar = () => {
-
   return (
     <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
       <Container>
-        <Navbar.Brand href="#home" style={{fontSize: '25px'}}>Panorama.</Navbar.Brand>
+        <Navbar.Brand href="" style={{ fontSize: "25px" }}>
+          Panorama.
+        </Navbar.Brand>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="me-auto">
-            <Nav.Link href="#features">Features</Nav.Link>
-            <Nav.Link href="#pricing">Pricing</Nav.Link>
+            <LinkContainer to="/registration">
+              <Nav.Link href="#features">Features</Nav.Link>
+            </LinkContainer>
           </Nav>
           <Nav>
-            <Nav.Link href="#pricing">Log In</Nav.Link>
-            <Nav.Link href="#pricing">Sign Up</Nav.Link>
+            <LinkContainer to="/login">
+              <Nav.Link href="/login">Log In</Nav.Link>
+            </LinkContainer>
+            <LinkContainer to="/registration">
+              <Nav.Link href="/registration">Sign Up</Nav.Link>
+            </LinkContainer>
             <NavDropdown title="Dropdown" id="collasible-nav-dropdown">
-              <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
+              <LinkContainer to="/">
+                <NavDropdown.Item href="/">Action</NavDropdown.Item>
+              </LinkContainer>
             </NavDropdown>
           </Nav>
         </Navbar.Collapse>
