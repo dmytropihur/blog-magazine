@@ -2,6 +2,8 @@ import { Card, Container, Form } from "react-bootstrap";
 import styled from "@emotion/styled";
 import { Input } from "../../components/Input";
 import { Button } from "../../components/Button";
+import { useDispatch } from "react-redux";
+import { userRegister } from "../../store/actionCreators/user.actionCreator";
 
 export const Registration = () => {
   const forms = [
@@ -42,6 +44,27 @@ export const Registration = () => {
       placeholder: "Repeat your password",
     },
   ];
+  const dispatch = useDispatch()
+
+  const handleSubmit = async e => {
+    e.preventDefault();
+    const {target } = e
+    const formData = new FormData(target)
+    const firstName = formData.get('name')
+    const lastName = formData.get('surname')
+    const phone = formData.get('phone')
+    const email = formData.get('email')
+    const password = formData.get('password')
+
+    try {
+      dispatch(userRegister({firstName, lastName, phone, email, password}))
+    } catch (err) {
+      console.log(err);
+    } finally{}
+
+  }
+
+
 
   return (
     <Box>
@@ -50,7 +73,7 @@ export const Registration = () => {
           <Card.Title as="h2" className="mb-4" style={{ textAlign: "center" }}>
             Registration
           </Card.Title>
-          <Form>
+          <Form onSubmit={handleSubmit}>
             {forms.map((form) => {
               return <Input props={form} />;
             })}
