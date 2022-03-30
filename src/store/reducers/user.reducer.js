@@ -1,4 +1,7 @@
 import {
+  LOGIN_STARTED,
+  LOGIN_SUCCESS,
+  LOGIN_ERROR,
   REGISTRATION_STARTED,
   REGISTRATION_SUCCESS,
   REGISTRATION_ERROR,
@@ -7,7 +10,7 @@ import {
 const initialState = {
   loading: false,
   error: null,
-}
+};
 
 export const userReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -25,7 +28,13 @@ export const userReducer = (state = initialState, action) => {
         loading: false,
         error: action.payload.message,
       };
-      default:
-        return state
+    case LOGIN_STARTED:
+      return { ...state, loading: true, error: false };
+    case LOGIN_SUCCESS:
+      return { ...state, loading: false, error: false };
+    case LOGIN_ERROR:
+      return { loading: false, error: action.payload };
+    default:
+      return state;
   }
 };
