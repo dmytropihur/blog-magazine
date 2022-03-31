@@ -1,12 +1,16 @@
 import React from 'react';
 import { Container, Nav, Navbar, NavDropdown } from "react-bootstrap";
+import { useSelector } from 'react-redux';
 import { LinkContainer } from "react-router-bootstrap";
 
 export const NavBar = () => {
+const {currentUser} = useSelector(state => state.userReducer)
+
+
   return (
     <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
       <Container>
-        <Navbar.Brand href="" style={{ fontSize: "25px" }}>
+        <Navbar.Brand href="/" style={{ fontSize: "25px" }}>
           Panorama.
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
