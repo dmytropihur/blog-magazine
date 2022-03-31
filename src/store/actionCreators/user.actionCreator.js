@@ -3,6 +3,9 @@ import {
   LOGIN_STARTED,
   LOGIN_SUCCESS,
   LOGIN_ERROR,
+  ACTIVATION_STARTED,
+  ACTIVATION_SUCCESS,
+  ACTIVATION_ERROR,
   LOGOUT,
   REGISTRATION_STARTED,
   REGISTRATION_SUCCESS,
@@ -11,7 +14,6 @@ import {
 
 export const userRegister = (payload) => {
   return async (dispatch) => {
-    //  console.log(payload);
     dispatch(registrationStarted());
 
     try {
@@ -33,13 +35,31 @@ export const userLogin = (payload) => {
     dispatch(loginStarted());
 
     try {
-      await axios
+      const currentUser = await axios
         .post(`${process.env.REACT_APP_DATABASE_URL}/auth/login`, payload)
         .then((response) => response.data);
-      dispatch(loginSuccess());
+      dispatch(loginSuccess(currentUser));
+      localStorage.setItem('accessToken', JSON.stringify(currentUser.accessToken))
+      localStorage.setItem('refreshToken', JSON.stringify(currentUser.refreshToken))
     } catch (err) {
       dispatch(loginError(err));
-      console.error(err)
+      console.error(err);
+    }
+  };
+};
+
+export const userActivation = (payload) => {
+  return async (dispatch) => {
+    dispatch(activationStarted());
+
+    try {
+      await axios
+        .get(`${process.env.REACT_APP_DATABASE_URL}/auth/activate/${payload}`)
+        .then((response) => console.log(response.data));
+      dispatch(activationSuccess());
+    } catch (err) {
+      dispatch(activationError(err));
+      console.error(err);
     }
   };
 };
@@ -60,14 +80,31 @@ export const registrationError = (payload) => {
     payload,
   };
 };
+export const activationStarted = () => {
+  return {
+    type: ACTIVATION_STARTED,
+  };
+};
+export const activationSuccess = () => {
+  return {
+    type: ACTIVATION_SUCCESS,
+  };
+};
+export const activationError = (payload) => {
+  return {
+    type: ACTIVATION_ERROR,
+    payload,
+  };
+};
 export const loginStarted = () => {
   return {
     type: LOGIN_STARTED,
   };
 };
-export const loginSuccess = () => {
+export const loginSuccess = (payload) => {
   return {
     type: LOGIN_SUCCESS,
+    payload
   };
 };
 export const loginError = (payload) => {

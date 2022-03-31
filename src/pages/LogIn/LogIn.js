@@ -1,4 +1,5 @@
 import styled from "@emotion/styled";
+import axios from "axios";
 import { Card, Container, Form } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -26,17 +27,18 @@ export const LogIn = () => {
   const navigate = useNavigate()
 
   const handleSubmit = async e => {
+    e.preventDefault();
     const {target} = e
     const formData = new FormData(target)
     const email = formData.get('email')
     const password = formData.get('password')
     try {
       dispatch(userLogin({email, password}))
-
+      navigate('/')
+      
     } catch(err) {
       console.log(err);
     }
-
 
   }
 
