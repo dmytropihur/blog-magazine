@@ -1,12 +1,9 @@
-import { Card, Container, Form } from "react-bootstrap";
-import styled from "@emotion/styled";
-import { Input } from "../../components/Input";
-import { Button } from "../../components/Button";
+import { Form } from "../../components/Form";
 import { useDispatch } from "react-redux";
 import { userRegister } from "../../store/actionCreators/user.actionCreator";
 import { useNavigate } from "react-router-dom";
 
-const forms = [
+const fields = [
   {
     label: "Name",
     name: "name",
@@ -44,52 +41,30 @@ const forms = [
     placeholder: "Repeat your password",
   },
 ];
-export const Registration = () => {
-  const dispatch = useDispatch()
-  const navigate = useNavigate()
 
-  const handleSubmit = async e => {
+export const Registration = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const {target } = e
-    const formData = new FormData(target)
-    const firstName = formData.get('name')
-    const lastName = formData.get('surname')
-    const phone = formData.get('phone')
-    const email = formData.get('email')
-    const password = formData.get('password')
+    const { target } = e;
+    const formData = new FormData(target);
+    const firstName = formData.get("name");
+    const lastName = formData.get("surname");
+    const phone = formData.get("phone");
+    const email = formData.get("email");
+    const password = formData.get("password");
 
     try {
-      dispatch(userRegister({firstName, lastName, phone, email, password}))
-      navigate('/login')
+      dispatch(userRegister({ firstName, lastName, phone, email, password }));
+      navigate("/login");
     } catch (err) {
       console.log(err);
-    } finally{}
-
-  }
-
-
+    }
+  };
 
   return (
-    <Box>
-      <Card style={{ width: "100%" }}>
-        <Card.Body>
-          <Card.Title as="h2" className="mb-4" style={{ textAlign: "center" }}>
-            Registration
-          </Card.Title>
-          <Form onSubmit={handleSubmit}>
-            {forms.map((form) => {
-              return <Input props={form} />;
-            })}
-            <Button variant="dark" type="submit">
-              Submit
-            </Button>
-          </Form>
-        </Card.Body>
-      </Card>
-    </Box>
+    <Form fields={fields} handleSubmit={handleSubmit} title={"Registration"} />
   );
 };
-
-const Box = styled(Container)`
-  max-width: 700px;
-`;
