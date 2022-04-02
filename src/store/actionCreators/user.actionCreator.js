@@ -41,6 +41,7 @@ export const userLogin = (payload) => {
       dispatch(loginSuccess(currentUser));
       localStorage.setItem('accessToken', JSON.stringify(currentUser.accessToken))
       localStorage.setItem('refreshToken', JSON.stringify(currentUser.refreshToken))
+      console.log(currentUser);
     } catch (err) {
       dispatch(loginError(err));
       console.error(err);

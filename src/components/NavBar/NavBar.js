@@ -1,11 +1,10 @@
-import React from 'react';
+import React from "react";
 import { Container, Nav, Navbar, NavDropdown } from "react-bootstrap";
-import { useSelector } from 'react-redux';
 import { LinkContainer } from "react-router-bootstrap";
+import { useUserSelector } from "../../hooks/useUserSelector";
 
 export const NavBar = () => {
-const {currentUser} = useSelector(state => state.userReducer)
-
+  const user = useUserSelector();
 
   return (
     <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
@@ -28,6 +27,12 @@ const {currentUser} = useSelector(state => state.userReducer)
               <Nav.Link href="/registration">Sign Up</Nav.Link>
             </LinkContainer>
             <NavDropdown title="Dropdown" id="collasible-nav-dropdown">
+              <LinkContainer to="/">
+                <NavDropdown.Item href="/">Action</NavDropdown.Item>
+              </LinkContainer>
+              <LinkContainer to="/">
+                <NavDropdown.Item href="/">Action</NavDropdown.Item>
+              </LinkContainer>
               <LinkContainer to="/">
                 <NavDropdown.Item href="/">Action</NavDropdown.Item>
               </LinkContainer>
