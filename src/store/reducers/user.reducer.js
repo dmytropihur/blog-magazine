@@ -3,6 +3,7 @@ import {
   LOGIN_STARTED,
   LOGIN_SUCCESS,
   LOGIN_ERROR,
+  LOGOUT,
   ACTIVATION_STARTED,
   ACTIVATION_SUCCESS,
   ACTIVATION_ERROR,
@@ -47,6 +48,8 @@ export const userReducer = (state = initialState, action) => {
       return { loading: false, error: action.payload };
     case SET_USER_STATE:
       return { ...state, user: action.payload, loading: false, error: null };
+    case LOGOUT:
+      return { ...state, user: null, loading: false, error: null };
     default:
       return state;
   }
