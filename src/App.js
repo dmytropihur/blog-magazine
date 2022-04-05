@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { getCurrentUser } from "./api/getCurrentUser";
 import { getTokens } from "./api/getTokens";

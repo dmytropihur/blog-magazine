@@ -103,3 +103,6 @@ export const setUserState = (payload) => ({
   type: SET_USER_STATE,
   payload,
 });
+export const logout = () => ({
+  type: LOGOUT,
+});
