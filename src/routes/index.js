@@ -3,6 +3,7 @@ import { Route, Routes } from "react-router-dom";
 import { Activation } from "../pages/Activation/Activation";
 import { HomePage } from "../pages/HomePage";
 import { LogIn } from "../pages/LogIn";
+import { NotFound } from "../pages/NotFound";
 import { Registration } from "../pages/Registration";
 
 export const AppRoutes = () => {
@@ -13,6 +14,7 @@ export const AppRoutes = () => {
     return (
       <Routes>
         <Route path="/" element={<HomePage />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
     )
   }
@@ -22,6 +24,7 @@ export const AppRoutes = () => {
       <Route path="/login" element={<LogIn />} />
       <Route path="/auth/activate/:code" element={<Activation />} />
       <Route path="/registration" element={<Registration />} />
+      <Route path="*" element={<NotFound />} />
     </Routes>
   );
 };
