@@ -1,4 +1,5 @@
 import axios from "axios";
+import { getCurrentUser } from "../../api/getCurrentUser";
 import {
   LOGIN_STARTED,
   LOGIN_SUCCESS,
@@ -10,6 +11,7 @@ import {
   REGISTRATION_STARTED,
   REGISTRATION_SUCCESS,
   REGISTRATION_ERROR,
+  SET_USER_STATE,
 } from "../actionTypes";
 
 export const userRegister = (payload) => {
@@ -35,13 +37,14 @@ export const userLogin = (payload) => {
     dispatch(loginStarted());
 
     try {
-      const currentUser = await axios
+      const { refreshToken, accessToken, r_exp, a_exp } = await axios
         .post(`${process.env.REACT_APP_DATABASE_URL}/auth/login`, payload)
         .then((response) => response.data);
-      dispatch(loginSuccess(currentUser));
-      localStorage.setItem('accessToken', JSON.stringify(currentUser.accessToken))
-      localStorage.setItem('refreshToken', JSON.stringify(currentUser.refreshToken))
-      console.log(currentUser);
+      document.cookie = `accessToken=${accessToken}; expires=${a_exp}`;
+      document.cookie = `refreshToken=${refreshToken}; expires=${r_exp}`;
+      const user = await getCurrentUser(accessToken)
+      dispatch(setUserState(user));
+      dispatch(loginSuccess());
     } catch (err) {
       dispatch(loginError(err));
       console.error(err);
@@ -56,7 +59,7 @@ export const userActivation = (payload) => {
     try {
       await axios
         .get(`${process.env.REACT_APP_DATABASE_URL}/auth/activate/${payload}`)
-        .then((response) => console.log(response.data));
+        .then((response) => response.data);
       dispatch(activationSuccess());
     } catch (err) {
       dispatch(activationError(err));
@@ -65,52 +68,38 @@ export const userActivation = (payload) => {
   };
 };
 
-export const registrationStarted = () => {
-  return {
+export const registrationStarted = () => ({
     type: REGISTRATION_STARTED,
-  };
-};
-export const registrationSuccess = () => {
-  return {
+});
+export const registrationSuccess = () => ({
     type: REGISTRATION_SUCCESS,
-  };
-};
-export const registrationError = (payload) => {
-  return {
+});
+export const registrationError = (payload) => ({
     type: REGISTRATION_ERROR,
     payload,
-  };
-};
-export const activationStarted = () => {
-  return {
+});
+export const activationStarted = () => ({
     type: ACTIVATION_STARTED,
-  };
-};
-export const activationSuccess = () => {
-  return {
+});
+export const activationSuccess = () => ({
     type: ACTIVATION_SUCCESS,
-  };
-};
-export const activationError = (payload) => {
-  return {
+});
+export const activationError = (payload) => ({
     type: ACTIVATION_ERROR,
     payload,
-  };
-};
-export const loginStarted = () => {
-  return {
+});
+export const loginStarted = () => ({
     type: LOGIN_STARTED,
-  };
-};
-export const loginSuccess = (payload) => {
-  return {
+});
+export const loginSuccess = (payload) =>({
     type: LOGIN_SUCCESS,
-    payload
-  };
-};
-export const loginError = (payload) => {
-  return {
-    type: LOGIN_ERROR,
     payload,
-  };
-};
+})
+export const loginError = (payload) => ({
+  type: LOGIN_ERROR,
+  payload,
+});
+export const setUserState = (payload) => ({
+  type: SET_USER_STATE,
+  payload,
+});

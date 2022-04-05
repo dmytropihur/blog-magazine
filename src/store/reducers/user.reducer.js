@@ -1,4 +1,5 @@
 import {
+  SET_USER_STATE,
   LOGIN_STARTED,
   LOGIN_SUCCESS,
   LOGIN_ERROR,
@@ -11,7 +12,7 @@ import {
 } from "../actionTypes";
 
 const initialState = {
-  currentUser: null,
+  user: null,
   loading: false,
   error: null,
 };
@@ -33,17 +34,19 @@ export const userReducer = (state = initialState, action) => {
         error: action.payload.message,
       };
     case LOGIN_STARTED:
-      return { ...state, loading: true, error: false };
+      return { ...state, loading: true };
     case LOGIN_SUCCESS:
-      return { ...state, currentUser: action.payload.user, loading: false, error: false };
+      return { ...state, loading: false };
     case LOGIN_ERROR:
       return { loading: false, error: action.payload };
     case ACTIVATION_STARTED:
-      return { ...state, loading: true, error: false };
+      return { ...state, loading: true };
     case ACTIVATION_SUCCESS:
-      return { ...state, loading: false, error: false };
+      return { ...state, loading: false };
     case ACTIVATION_ERROR:
       return { loading: false, error: action.payload };
+    case SET_USER_STATE:
+      return { ...state, user: action.payload, loading: false, error: null };
     default:
       return state;
   }
