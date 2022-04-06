@@ -10,7 +10,6 @@ export const NavBar = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.userReducer);
-  console.log(user);
 
   const onLogout = () => {
     deleteCookies();
@@ -20,15 +19,17 @@ export const NavBar = () => {
   return (
     <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
       <Container>
-        <Navbar.Brand style={{ fontSize: "25px" }}>
-          Panorama.
-        </Navbar.Brand>
+        <Navbar.Brand style={{ fontSize: "25px" }}>Panorama.</Navbar.Brand>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="me-auto">
-            <LinkContainer to="/">
-              <Nav.Link href="/"></Nav.Link>
-            </LinkContainer>
+            {!!user && (
+              <>
+                <LinkContainer to="/posts">
+                  <Nav.Link href="/posts">Posts</Nav.Link>
+                </LinkContainer>
+              </>
+            )}
           </Nav>
           <Nav>
             {!user && (
@@ -49,12 +50,6 @@ export const NavBar = () => {
                       Log Out
                     </NavDropdown.Item>
                   </LinkContainer>
-                  {/* <LinkContainer to="/">
-                    <NavDropdown.Item href="/">Action</NavDropdown.Item>
-                  </LinkContainer>
-                  <LinkContainer to="/">
-                    <NavDropdown.Item href="/">Action</NavDropdown.Item>
-                  </LinkContainer> */}
                 </NavDropdown>
               </>
             )}

@@ -40,8 +40,17 @@ export const userLogin = (payload) => {
       const { refreshToken, accessToken, r_exp, a_exp } = await axios
         .post(`${process.env.REACT_APP_DATABASE_URL}/auth/login`, payload)
         .then((response) => response.data);
-      document.cookie = `accessToken=${accessToken}; expires=${a_exp}`;
-      document.cookie = `refreshToken=${refreshToken}; expires=${r_exp}`;
+
+      const nowAccess = new Date();
+      const timeAccess = nowAccess.getTime();
+      const expireAccessTime = timeAccess + a_exp
+      nowAccess.setTime(expireAccessTime);
+      const nowRefresh = new Date();
+      const timeRefresh = nowRefresh.getTime();
+      const expireRefreshTime = timeRefresh + r_exp
+      nowRefresh.setTime(expireRefreshTime);
+      document.cookie = `accessToken=${accessToken}; expires=${nowAccess.toUTCString()}`;
+      document.cookie = `refreshToken=${refreshToken}; expires=${nowRefresh.toUTCString()}`;
       const user = await getCurrentUser(accessToken)
       dispatch(setUserState(user));
       dispatch(loginSuccess());
