@@ -4,6 +4,7 @@ import { Activation } from "../pages/Activation/Activation";
 import { HomePage } from "../pages/HomePage";
 import { LogIn } from "../pages/LogIn";
 import { NotFound } from "../pages/NotFound";
+import { Posts } from "../pages/Posts";
 import { Registration } from "../pages/Registration";
 
 export const AppRoutes = () => {
@@ -14,6 +15,7 @@ export const AppRoutes = () => {
     return (
       <Routes>
         <Route path="/" element={<HomePage />} />
+        <Route path="/posts" element={<Posts />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     )
