@@ -1,13 +1,10 @@
-import styled from "@emotion/styled";
-import axios from "axios";
-import { Card, Container, Form } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { Button } from "../../components/Button";
-import { Input } from "../../components/Input";
 import { userLogin } from "../../store/actionCreators/user.actionCreator";
+import { Form } from "../../components/Form/Form";
+import * as Yup from "yup";
 
-const forms = [
+const fields = [
   {
     label: "Email",
     name: "email",
@@ -21,50 +18,36 @@ const forms = [
     placeholder: "Enter your password",
   },
 ];
+
+const initialValues = { email: "", password: "" };
+
+const validate = Yup.object().shape({
+  email: Yup.string().email("Invalid email").required("Required!"),
+  password: Yup.string().required("Required!"),
+});
+
 export const LogIn = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-  const dispatch = useDispatch()
-  const navigate = useNavigate()
-
-  const handleSubmit = async e => {
-    e.preventDefault();
-    const {target} = e
-    const formData = new FormData(target)
-    const email = formData.get('email')
-    const password = formData.get('password')
+  const handleSubmit = async (values) => {
+    const {email, password} = values
     try {
-      dispatch(userLogin({email, password}))
-      navigate('/')
-      
-    } catch(err) {
+      console.log(values);
+      dispatch(userLogin({email, password}));
+      navigate("/");
+    } catch (err) {
       console.log(err);
     }
-
-  }
-
-
+  };
 
   return (
-    <Box>
-      <Card style={{ width: "100%" }}>
-        <Card.Body>
-          <Card.Title as="h2" className="mb-4" style={{ textAlign: "center" }}>
-            Log In
-          </Card.Title>
-          <Form onSubmit={handleSubmit}>
-            {forms.map((form) => {
-              return <Input props={form} />;
-            })}
-            <Button variant="dark" type="submit">
-              Submit
-            </Button>
-          </Form>
-        </Card.Body>
-      </Card>
-    </Box>
+    <Form
+      title="Log In"
+      initialValues={initialValues}
+      fields={fields}
+      submit={handleSubmit}
+      validate={validate}
+    />
   );
 };
-
-const Box = styled(Container)`
-  max-width: 700px;
-`;

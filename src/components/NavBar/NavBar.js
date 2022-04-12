@@ -45,6 +45,11 @@ export const NavBar = () => {
             {!!user && (
               <>
                 <NavDropdown title="Menu" id="collasible-nav-dropdown">
+                  <LinkContainer to="/createPost">
+                    <NavDropdown.Item href="/createPost">
+                      Create Post
+                    </NavDropdown.Item>
+                  </LinkContainer>
                   <LinkContainer to="/login">
                     <NavDropdown.Item as="button" onClick={onLogout} href="/">
                       Log Out

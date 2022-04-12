@@ -1,8 +1,8 @@
 import styled from "@emotion/styled";
 
-export const Button = ({ children, type }) => {
+export const Button = ({ children, type, handleSubmit }) => {
   return (
-    <CustomButton type={type}>{children}</CustomButton>
+    <CustomButton type={type} onClick={handleSubmit}>{children}</CustomButton>
   )
 };
 
