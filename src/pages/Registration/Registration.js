@@ -2,17 +2,19 @@ import { Form } from "../../components/Form";
 import { useDispatch } from "react-redux";
 import { userRegister } from "../../store/actionCreators/user.actionCreator";
 import { useNavigate } from "react-router-dom";
+import * as Yup from "yup";
+import { PHONE_REGEXP } from "../../constants/constants";
 
 const fields = [
   {
     label: "Name",
-    name: "name",
+    name: "firstName",
     type: "text",
     placeholder: "Enter your name",
   },
   {
     label: "Surname",
-    name: "surname",
+    name: "lastName",
     type: "text",
     placeholder: "Enter your surname",
   },
@@ -42,21 +44,45 @@ const fields = [
   },
 ];
 
+const initialValues = {
+  firstName: "",
+  lastName: "",
+  email: "",
+  phone: "",
+  password: "",
+  repeatPassword: "",
+};
+
+const validate = Yup.object().shape({
+  firstName: Yup.string()
+    .min(5, "Too Short!")
+    .max(50, "Too Long!")
+    .required("Required!"),
+  lastName: Yup.string()
+    .min(5, "Too Short!")
+    .max(50, "Too Long!")
+    .required("Required!"),
+  email: Yup.string().email("Invalid email").required("Required!"),
+  phone: Yup.string()
+    .matches(PHONE_REGEXP, "Invalid phone")
+    .min(10, "Too short...")
+    .max(14, "Too long...")
+    .required("A file is required"),
+  password: Yup.string().min(2, "Too short...").required("Reguired!"),
+  repeatPassword: Yup.string()
+    .min(2, "Too short...")
+    .required("Required!")
+    .oneOf([Yup.ref("password")], "Passwords does not match"),
+});
+
 export const Registration = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const { target } = e;
-    const formData = new FormData(target);
-    const firstName = formData.get("name");
-    const lastName = formData.get("surname");
-    const phone = formData.get("phone");
-    const email = formData.get("email");
-    const password = formData.get("password");
-
+  const handleSubmit = async (values) => {
+    const { firstName, lastName, phone, email, password } = values;
     try {
+      console.log(values);
       dispatch(userRegister({ firstName, lastName, phone, email, password }));
       navigate("/login");
     } catch (err) {
@@ -65,6 +91,12 @@ export const Registration = () => {
   };
 
   return (
-    <Form fields={fields} handleSubmit={handleSubmit} title={"Registration"} />
+    <Form
+      fields={fields}
+      submit={handleSubmit}
+      title={"Registration"}
+      validate={validate}
+      initialValues={initialValues}
+    />
   );
 };
