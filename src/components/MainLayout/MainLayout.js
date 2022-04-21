@@ -1,19 +1,20 @@
+import React from "react";
 import styled from "@emotion/styled";
-import { useSelector } from "react-redux";
 import { NavBar } from "../NavBar";
+import { Spinner } from "react-bootstrap";
+import { useGetUser } from "../../helpers/useGetUser";
 
 export const MainLayout = ({ children }) => {
-  const { loading, error } = useSelector((state) => state.userReducer);
-
+  const { loading } = useGetUser();
   return (
     <>
+      <NavBar />
       {loading ? (
-        <div>waiting...</div>
+        <Content>
+          <Spinner animation="border" />
+        </Content>
       ) : (
-        <>
-          <NavBar />
-          <Content>{children}</Content>
-        </>
+        <Content>{children}</Content>
       )}
     </>
   );

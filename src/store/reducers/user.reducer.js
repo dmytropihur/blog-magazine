@@ -28,7 +28,6 @@ export const userReducer = (state = initialState, action) => {
         loading: false,
         error: null,
       };
-
     case REGISTRATION_ERROR:
       return {
         loading: false,
@@ -43,13 +42,13 @@ export const userReducer = (state = initialState, action) => {
     case ACTIVATION_STARTED:
       return { ...state, loading: true };
     case ACTIVATION_SUCCESS:
-      return { ...state, loading: false };
+      return { ...state, loading: false, error: null };
     case ACTIVATION_ERROR:
       return { loading: false, error: action.payload };
     case SET_USER_STATE:
       return { ...state, user: action.payload, loading: false, error: null };
     case LOGOUT:
-      return { ...state, user: null, loading: false, error: null };
+      return { ...initialState };
     default:
       return state;
   }

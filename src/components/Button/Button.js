@@ -1,10 +1,11 @@
+import React from "react";
 import styled from "@emotion/styled";
 
-export const Button = ({ children, type, handleSubmit }) => {
-  return (
-    <CustomButton type={type} onClick={handleSubmit}>{children}</CustomButton>
-  )
-};
+export const Button = ({ children, type, handleSubmit }) => (
+  <CustomButton type={type} onClick={handleSubmit}>
+    {children}
+  </CustomButton>
+);
 
 const CustomButton = styled.button`
   padding: 7px 17px;
@@ -14,6 +15,7 @@ const CustomButton = styled.button`
   border-radius: 4px;
   display: block;
   margin: 30px auto 0;
+
   &:hover {
     color: #fff;
   }

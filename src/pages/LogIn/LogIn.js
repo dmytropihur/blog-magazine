@@ -1,3 +1,4 @@
+import React from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { userLogin } from "../../store/actionCreators/user.actionCreator";
@@ -21,7 +22,7 @@ const fields = [
 
 const initialValues = { email: "", password: "" };
 
-const validate = Yup.object().shape({
+const validationSchema = Yup.object().shape({
   email: Yup.string().email("Invalid email").required("Required!"),
   password: Yup.string().required("Required!"),
 });
@@ -31,10 +32,10 @@ export const LogIn = () => {
   const navigate = useNavigate();
 
   const handleSubmit = async (values) => {
-    const {email, password} = values
+    const { email, password } = values;
     try {
       console.log(values);
-      dispatch(userLogin({email, password}));
+      dispatch(userLogin({ email, password }));
       navigate("/");
     } catch (err) {
       console.log(err);
@@ -47,7 +48,7 @@ export const LogIn = () => {
       initialValues={initialValues}
       fields={fields}
       submit={handleSubmit}
-      validate={validate}
+      validationSchema={validationSchema}
     />
   );
 };

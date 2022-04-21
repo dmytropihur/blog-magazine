@@ -1,9 +1,9 @@
+import React from "react";
 import { Form } from "../../components/Form/Form";
 import * as Yup from "yup";
-import {
-  FILE_IMAGE_SIZE,
-  SUPPORTED_IMAGE_FORMATS,
-} from "../../constants/constants";
+import { useDispatch } from "react-redux";
+import { createPost } from "../../store/actionCreators/post.actionCreator";
+import { useGetUser } from "../../helpers/useGetUser";
 
 const fields = [
   {
@@ -34,23 +34,30 @@ const validationSchema = Yup.object().shape({
     .max(50, "Too Long!")
     .required("Required!"),
   description: Yup.string().min(2, "To short!").required("Required!"),
-  image: Yup.mixed()
-    .required("A file is required")
+  image: Yup.mixed().required("A file is required"),
 });
 
 export const CreatePost = () => {
+  const dispatch = useDispatch();
+  const { user } = useGetUser();
   const handleSubmit = (values) => {
     console.log(values);
-  }
+    const formData = new FormData();
+    formData.append("title", values.title);
+    formData.append("description", values.description);
+    formData.append("image", values.image);
+    formData.append("creatorId", user._id);
+    console.log(formData.entries);
+    dispatch(createPost(formData));
+  };
+
   return (
-    <>
-      <Form
-        submit={handleSubmit}
-        fields={fields}
-        title={"Create your post"}
-        initialValues={initialValues}
-        validate={validationSchema}
-      />
-    </>
+    <Form
+      submit={handleSubmit}
+      fields={fields}
+      title={"Create your post"}
+      initialValues={initialValues}
+      validationSchema={validationSchema}
+    />
   );
 };

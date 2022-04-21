@@ -1,5 +1,5 @@
+import React, { useState } from "react";
 import styled from "@emotion/styled";
-import { useState } from "react";
 import { Card, Form } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { Link, useParams } from "react-router-dom";
@@ -9,7 +9,6 @@ import { userActivation } from "../../store/actionCreators/user.actionCreator";
 export const Activation = () => {
   const { code } = useParams();
   const dispatch = useDispatch();
-  const [error, setError] = useState(false);
   const [active, setActive] = useState(false);
 
   const handleSubmit = async (e) => {
@@ -23,24 +22,24 @@ export const Activation = () => {
     }
   };
 
+  if (!active) {
+    return (
+      <Form onSubmit={handleSubmit}>
+        <Button type="submit">Activate</Button>
+      </Form>
+    );
+  }
+
   return (
-    <>
-      {active ? (
-        <Card>
-          <Card.Body>Your account is active now</Card.Body>
-          <GoLink to="/login">Go Home</GoLink>
-        </Card>
-      ) : (
-        <Form onSubmit={handleSubmit}>
-          <Button type="submit">Activate</Button>
-        </Form>
-      )}
-    </>
+    <Card>
+      <Card.Body>Your account is active now</Card.Body>
+      <GoLink to="/login">Go Home</GoLink>
+    </Card>
   );
 };
 
 const GoLink = styled(Link)`
-display: inline-block;
+  display: inline-block;
   text-decoration: none;
   text-align: center;
   padding: 7px 17px;
@@ -48,7 +47,7 @@ display: inline-block;
   background-color: #212529;
   color: #c4c4c4;
   border-radius: 4px;
-  &:hover{
+  &:hover {
     color: #fff;
   }
 `;
