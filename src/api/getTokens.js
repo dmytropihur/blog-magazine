@@ -1,11 +1,15 @@
 import axios from "axios";
+import { URL } from "../constants/constants";
 
 export const getTokens = async (refreshToken) => {
-  const response = await axios
-    .post(`${process.env.REACT_APP_DATABASE_URL}/auth/refresh`, {
-      refreshToken: refreshToken,
-    })
-    .then((response) => response.data);
-
-  return response;
+  try {
+    const response = await axios
+      .post(`${URL}/auth/refresh`, {
+        refreshToken: refreshToken,
+      })
+      .then((response) => response.data);
+    return response;
+  } catch (error) {
+    console.error(error);
+  }
 };

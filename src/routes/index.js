@@ -1,5 +1,6 @@
-import { useSelector } from "react-redux";
+import React from "react";
 import { Route, Routes } from "react-router-dom";
+import { useGetUser } from "../helpers/useGetUser";
 import { Activation } from "../pages/Activation/Activation";
 import { CreatePost } from "../pages/CreatePost";
 import { HomePage } from "../pages/HomePage";
@@ -9,8 +10,7 @@ import { Posts } from "../pages/Posts";
 import { Registration } from "../pages/Registration";
 
 export const AppRoutes = () => {
-  const {user} = useSelector(state => state.userReducer)
-  console.log(user);
+  const { user } = useGetUser();
 
   if (!!user) {
     return (
@@ -20,8 +20,9 @@ export const AppRoutes = () => {
         <Route path="/createPost" element={<CreatePost />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
-    )
+    );
   }
+
   return (
     <Routes>
       <Route path="/" element={<HomePage />} />

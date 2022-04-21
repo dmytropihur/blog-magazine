@@ -1,48 +1,33 @@
-import axios from "axios";
-import { useEffect, useState } from "react";
+import React from "react";
+import { Spinner } from "react-bootstrap";
+import { URL } from "../../constants/constants";
+import { useFetch } from "../../hooks/useFetch";
 
 export const Posts = () => {
-  const [posts, setPosts] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const { data, loading, error } = useFetch(`${URL}/posts`);
 
-  const getPosts = async () => {
-    try {
-      setLoading(true);
-      const res = await axios
-        .get(`${process.env.REACT_APP_DATABASE_URL}/posts`)
-        .then((response) => response.data);
-      setPosts(res);
-      console.log(res);
-    } catch (error) {
-      setError(error);
-      console.error(error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    getPosts();
-  }, []);
+  if (loading) {
+    return <Spinner animation="border" />;
+  }
 
   return (
     <>
-      {loading && <div>Loading...</div>}
-      {error && <div>{error}</div> }
-      {posts ? (
+      {!data.length ? (
+        <div>The list of posts is empty</div>
+      ) : (
         <ul>
-          {posts.map((post) => {
-            <li>
-              <div>{post.title}</div>
-              <div>{post.img}</div>
-              <div>{post.title}</div>
-            </li>;
+          {data.map((post) => {
+            return (
+              <li key={post.title}>
+                <div>{post.title}</div>
+                <div>{post.img}</div>
+                <div>{post.title}</div>
+              </li>
+            );
           })}
         </ul>
-      ) : (
-        <div>The list of posts is empty</div>
       )}
+      {error && <div>{error}</div>}
     </>
   );
 };

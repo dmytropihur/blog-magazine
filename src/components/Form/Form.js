@@ -4,7 +4,13 @@ import { Card, Container } from "react-bootstrap";
 import { Button } from "../Button";
 import { Input } from "../Input";
 
-export const Form = ({ fields, title, initialValues, submit, validate }) => {
+export const Form = ({
+  fields,
+  title,
+  initialValues,
+  submit,
+  validationSchema,
+}) => {
   return (
     <Box>
       <StyledCard>
@@ -12,26 +18,19 @@ export const Form = ({ fields, title, initialValues, submit, validate }) => {
           <Title as="h3">{title}</Title>
           <Formik
             initialValues={initialValues}
-            validationSchema={validate}
-            onSubmit={values => submit(values)}
+            validationSchema={validationSchema}
+            onSubmit={submit}
           >
-            {({
-              handleChange,
-              handleSubmit,
-              handleBlur,
-              isValid,
-            }) => (
+            {({ handleChange, handleSubmit, handleBlur, isValid }) => (
               <form>
-                {fields.map((field) => {
-                  return (
-                    <Input
-                      key={field.name}
-                      field={field}
-                      handleBlur={handleBlur}
-                      handleChange={handleChange}
-                    />
-                  );
-                })}
+                {fields.map((field) => (
+                  <Input
+                    key={field.name}
+                    field={field}
+                    handleBlur={handleBlur}
+                    handleChange={handleChange}
+                  />
+                ))}
 
                 <Button
                   variant="dark"

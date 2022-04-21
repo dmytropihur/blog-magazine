@@ -1,43 +1,45 @@
-import axios from "axios";
-import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect } from "react";
+import { useDispatch } from "react-redux";
 import { getCurrentUser } from "./api/getCurrentUser";
 import { getTokens } from "./api/getTokens";
 import { MainLayout } from "./components/MainLayout";
 import { deleteCookies } from "./helpers/deleteCookies";
-import { getCookie } from "./helpers/getCookie";
+import { setAccessCookie } from "./helpers/setAccessCookie";
+import { setRefreshCookie } from "./helpers/setRefreshCookie";
+import { useGetCookie } from "./helpers/useGetCookie";
 import { Providers } from "./providers";
 import { AppRoutes } from "./routes";
 import { setUserState } from "./store/actionCreators/user.actionCreator";
 
 function App() {
   const dispatch = useDispatch();
-  const accessToken = getCookie("accessToken");
-  const refreshToken = getCookie("refreshToken");
+  const [accessToken, refreshToken] = useGetCookie([
+    "accessToken",
+    "refreshToken",
+  ]);
+  console.log(accessToken);
+  console.log(refreshToken);
 
-  useEffect(async () => {
+  useEffect(() => {
     const setNewTokens = (data) => {
+      console.log(data);
       const { refreshToken, accessToken, a_exp, r_exp } = data;
       deleteCookies();
-      document.cookie = `accessToken=${accessToken}; expires=${a_exp}`;
-      document.cookie = `refreshToken=${refreshToken}; expires=${r_exp}`;
+      setAccessCookie(accessToken, a_exp);
+      setRefreshCookie(refreshToken, r_exp);
       return accessToken;
     };
 
     if (accessToken) {
       console.log("you have access token");
-      const user = await getCurrentUser(accessToken);
-      dispatch(setUserState(user));
+      getCurrentUser(accessToken).then((user) => dispatch(setUserState(user)));
     } else if (refreshToken) {
-      const data = await getTokens(refreshToken);
-      const accessToken = setNewTokens(data);
-      const user = await getCurrentUser(accessToken);
-      console.log(user);
-      dispatch(setUserState(user));
+      getTokens(refreshToken)
+        .then(setNewTokens)
+        .then(getCurrentUser)
+        .then((user) => dispatch(setUserState(user)));
+
       console.log("you have refresh token");
-    } else if (!refreshToken) {
-      console.log("you're not authorized");
     }
   }, []);
 

@@ -53,7 +53,7 @@ const initialValues = {
   repeatPassword: "",
 };
 
-const validate = Yup.object().shape({
+const validationSchema = Yup.object().shape({
   firstName: Yup.string()
     .min(5, "Too Short!")
     .max(50, "Too Long!")
@@ -95,7 +95,7 @@ export const Registration = () => {
       fields={fields}
       submit={handleSubmit}
       title={"Registration"}
-      validate={validate}
+      validationSchema={validationSchema}
       initialValues={initialValues}
     />
   );
