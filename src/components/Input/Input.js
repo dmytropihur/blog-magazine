@@ -1,8 +1,9 @@
+import React from "react";
 import { ErrorMessage } from "formik";
 import { Form, FormGroup, FormLabel } from "react-bootstrap";
 
 export const Input = ({ field, handleBlur, handleChange }) => {
-  const {name, type, placeholder, label} = field
+  const { name, type, placeholder, label } = field;
   return (
     <>
       <FormGroup className="mb-2">
@@ -15,7 +16,7 @@ export const Input = ({ field, handleBlur, handleChange }) => {
           onBlur={handleBlur}
         />
       </FormGroup>
-      <ErrorMessage name={name}/>
+      <ErrorMessage name={name} />
     </>
   );
 };

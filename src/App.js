@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { getCurrentUser } from "./api/getCurrentUser";
 import { getTokens } from "./api/getTokens";
 import { MainLayout } from "./components/MainLayout";
 import { deleteCookies } from "./helpers/deleteCookies";
@@ -9,7 +8,7 @@ import { setRefreshCookie } from "./helpers/setRefreshCookie";
 import { useGetCookie } from "./helpers/useGetCookie";
 import { Providers } from "./providers";
 import { AppRoutes } from "./routes";
-import { setUserState } from "./store/actionCreators/user.actionCreator";
+import { fetchUser } from "./store/userReducer";
 
 function App() {
   const dispatch = useDispatch();
@@ -32,12 +31,11 @@ function App() {
 
     if (accessToken) {
       console.log("you have access token");
-      getCurrentUser(accessToken).then((user) => dispatch(setUserState(user)));
+      dispatch(fetchUser(accessToken));
     } else if (refreshToken) {
       getTokens(refreshToken)
         .then(setNewTokens)
-        .then(getCurrentUser)
-        .then((user) => dispatch(setUserState(user)));
+        .then((token) => dispatch(fetchUser(token)));
 
       console.log("you have refresh token");
     }

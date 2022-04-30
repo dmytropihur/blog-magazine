@@ -1,3 +1,4 @@
+import React from "react";
 import styled from "@emotion/styled";
 import { Formik } from "formik";
 import { Card, Container } from "react-bootstrap";
@@ -21,16 +22,33 @@ export const Form = ({
             validationSchema={validationSchema}
             onSubmit={submit}
           >
-            {({ handleChange, handleSubmit, handleBlur, isValid }) => (
+            {({
+              handleChange,
+              handleSubmit,
+              handleBlur,
+              setFieldValue,
+              isValid,
+            }) => (
               <form>
-                {fields.map((field) => (
-                  <Input
-                    key={field.name}
-                    field={field}
-                    handleBlur={handleBlur}
-                    handleChange={handleChange}
-                  />
-                ))}
+                {fields.map((field) =>
+                  field.type === "file" ? (
+                    <input
+                      key={field.name}
+                      type="file"
+                      name="image"
+                      onChange={(e) =>
+                        setFieldValue("image", e.target.files[0])
+                      }
+                    />
+                  ) : (
+                    <Input
+                      key={field.name}
+                      field={field}
+                      handleBlur={handleBlur}
+                      handleChange={handleChange}
+                    />
+                  )
+                )}
 
                 <Button
                   variant="dark"

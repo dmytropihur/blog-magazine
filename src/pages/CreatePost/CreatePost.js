@@ -2,8 +2,9 @@ import React from "react";
 import { Form } from "../../components/Form/Form";
 import * as Yup from "yup";
 import { useDispatch } from "react-redux";
-import { createPost } from "../../store/actionCreators/post.actionCreator";
-import { useGetUser } from "../../helpers/useGetUser";
+import { useUserState } from "../../helpers/useUserState";
+import { Spinner } from "react-bootstrap";
+import { createPost } from "../../store/postsReducer";
 
 const fields = [
   {
@@ -39,7 +40,7 @@ const validationSchema = Yup.object().shape({
 
 export const CreatePost = () => {
   const dispatch = useDispatch();
-  const { user } = useGetUser();
+  const { user, status } = useUserState();
   const handleSubmit = (values) => {
     console.log(values);
     const formData = new FormData();
@@ -47,17 +48,22 @@ export const CreatePost = () => {
     formData.append("description", values.description);
     formData.append("image", values.image);
     formData.append("creatorId", user._id);
-    console.log(formData.entries);
     dispatch(createPost(formData));
   };
 
   return (
-    <Form
-      submit={handleSubmit}
-      fields={fields}
-      title={"Create your post"}
-      initialValues={initialValues}
-      validationSchema={validationSchema}
-    />
+    <>
+      {status === "loading" ? (
+        <Spinner animation="border" />
+      ) : (
+        <Form
+          submit={handleSubmit}
+          fields={fields}
+          title={"Create your post"}
+          initialValues={initialValues}
+          validationSchema={validationSchema}
+        />
+      )}
+    </>
   );
 };
