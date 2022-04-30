@@ -2,14 +2,15 @@ import React from "react";
 import styled from "@emotion/styled";
 import { NavBar } from "../NavBar";
 import { Spinner } from "react-bootstrap";
-import { useGetUser } from "../../helpers/useGetUser";
+import { useUserState } from "../../helpers/useUserState";
 
 export const MainLayout = ({ children }) => {
-  const { loading } = useGetUser();
+  const { status } = useUserState();
+
   return (
     <>
       <NavBar />
-      {loading ? (
+      {status === "loading" ? (
         <Content>
           <Spinner animation="border" />
         </Content>

@@ -1,9 +1,10 @@
+import React from "react";
 import { Form } from "../../components/Form";
 import { useDispatch } from "react-redux";
-import { userRegister } from "../../store/actionCreators/user.actionCreator";
 import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 import { PHONE_REGEXP } from "../../constants/constants";
+import { registerUser } from "../../store/userReducer";
 
 const fields = [
   {
@@ -83,7 +84,7 @@ export const Registration = () => {
     const { firstName, lastName, phone, email, password } = values;
     try {
       console.log(values);
-      dispatch(userRegister({ firstName, lastName, phone, email, password }));
+      dispatch(registerUser({ firstName, lastName, phone, email, password }));
       navigate("/login");
     } catch (err) {
       console.log(err);

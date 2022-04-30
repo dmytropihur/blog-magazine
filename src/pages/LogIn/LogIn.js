@@ -1,9 +1,9 @@
 import React from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { userLogin } from "../../store/actionCreators/user.actionCreator";
 import { Form } from "../../components/Form/Form";
 import * as Yup from "yup";
+import { loginUser } from "../../store/userReducer";
 
 const fields = [
   {
@@ -35,7 +35,7 @@ export const LogIn = () => {
     const { email, password } = values;
     try {
       console.log(values);
-      dispatch(userLogin({ email, password }));
+      dispatch(loginUser({ email, password }));
       navigate("/");
     } catch (err) {
       console.log(err);

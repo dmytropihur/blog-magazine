@@ -4,7 +4,7 @@ import { Card, Form } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { Link, useParams } from "react-router-dom";
 import { Button } from "../../components/Button";
-import { userActivation } from "../../store/actionCreators/user.actionCreator";
+import { activateUser } from "../../store/userReducer";
 
 export const Activation = () => {
   const { code } = useParams();
@@ -14,7 +14,7 @@ export const Activation = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      dispatch(userActivation(code));
+      dispatch(activateUser(code));
       setActive(true);
     } catch (err) {
       console.error(err);

@@ -4,15 +4,15 @@ import { useDispatch } from "react-redux";
 import { LinkContainer } from "react-router-bootstrap";
 import { ROUTES } from "../../configs/routes";
 import { deleteCookies } from "../../helpers/deleteCookies";
-import { useGetUser } from "../../helpers/useGetUser";
-import { logout } from "../../store/actionCreators/user.actionCreator";
+import { useUserState } from "../../helpers/useUserState";
+import { logout } from "../../store/userReducer";
 
 const { home, posts, login, registration, createPost } = ROUTES;
 console.log(home);
 
 export const NavBar = () => {
   const dispatch = useDispatch();
-  const { user } = useGetUser();
+  const { user, status } = useUserState();
 
   const onLogout = () => {
     deleteCookies();
@@ -26,14 +26,14 @@ export const NavBar = () => {
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="me-auto">
-            {!!user && (
+            {!!user && status !== "loading" && (
               <LinkContainer to={posts}>
                 <Nav.Link href={posts}>Posts</Nav.Link>
               </LinkContainer>
             )}
           </Nav>
           <Nav>
-            {!user && (
+            {!user && status !== "loading" && (
               <>
                 <LinkContainer to={login}>
                   <Nav.Link href={login}>Log In</Nav.Link>
@@ -43,7 +43,7 @@ export const NavBar = () => {
                 </LinkContainer>
               </>
             )}
-            {!!user && (
+            {!!user && status !== "loading" && (
               <NavDropdown title="Menu" id="collasible-nav-dropdown">
                 <LinkContainer to={createPost}>
                   <NavDropdown.Item href={createPost}>

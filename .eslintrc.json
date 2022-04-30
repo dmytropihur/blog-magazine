@@ -21,7 +21,8 @@
   },
   "plugins": ["react", "prettier"],
   "rules": {
-    "camelcase": ["error", { "properties": "never" }],
+    "properties": "off",
+    "camelcase": ["error", { "properties": "off" }],
     "require-jsdoc": "off",
     "react/prop-types": [
       "off",
