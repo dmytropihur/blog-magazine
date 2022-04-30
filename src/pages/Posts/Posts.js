@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { Spinner } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
+import { PostsList } from "../../components/PostsList";
 import { getPosts } from "../../store/postsReducer";
 
 export const Posts = () => {
@@ -17,21 +18,7 @@ export const Posts = () => {
 
   return (
     <>
-      {!posts.length ? (
-        <div>The list of posts is empty</div>
-      ) : (
-        <ul>
-          {posts.map((post) => {
-            return (
-              <li key={post.title}>
-                <div>{post.title}</div>
-                <div>{post.image}</div>
-                <div>{post.description}</div>
-              </li>
-            );
-          })}
-        </ul>
-      )}
+      {!posts.length ? <div>The list of posts is empty</div> : <PostsList />}
       {error !== "null" && <div>{error}</div>}
     </>
   );
