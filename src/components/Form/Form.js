@@ -1,9 +1,9 @@
-import React from "react";
-import styled from "@emotion/styled";
-import { Formik } from "formik";
-import { Card, Container } from "react-bootstrap";
-import { Button } from "../Button";
-import { Input } from "../Input";
+import React, { useEffect, useState } from 'react';
+import styled from '@emotion/styled';
+import { Formik } from 'formik';
+import { Card, Container } from 'react-bootstrap';
+import { Button } from '../Button';
+import { Input } from '../Input';
 
 export const Form = ({
   fields,
@@ -12,6 +12,7 @@ export const Form = ({
   submit,
   validationSchema,
 }) => {
+  console.log(initialValues);
   return (
     <Box>
       <StyledCard>
@@ -21,6 +22,7 @@ export const Form = ({
             initialValues={initialValues}
             validationSchema={validationSchema}
             onSubmit={submit}
+            enableReinitialize={true}
           >
             {({
               handleChange,
@@ -31,13 +33,13 @@ export const Form = ({
             }) => (
               <form>
                 {fields.map((field) =>
-                  field.type === "file" ? (
+                  field.type === 'file' ? (
                     <input
                       key={field.name}
                       type="file"
                       name="image"
                       onChange={(e) =>
-                        setFieldValue("image", e.target.files[0])
+                        setFieldValue('image', e.target.files[0])
                       }
                     />
                   ) : (

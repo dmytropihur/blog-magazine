@@ -33,13 +33,12 @@ export const Post = ({ post, $display }) => {
   };
 
   useEffect(() => {
-    const fetch = async () => {
+    (async () => {
       const { firstName } = await getUserById(creatorId);
       setCreator(firstName);
-    };
-
-    fetch();
+    })();
   }, []);
+
   return (
     <Item $display={$display}>
       <Img src={image}></Img>

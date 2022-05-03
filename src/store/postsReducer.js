@@ -1,12 +1,12 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import axios from "axios";
-import { URL } from "../constants/constants";
-import { useGetCookie } from "../helpers/useGetCookie";
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import axios from 'axios';
+import { URL } from '../constants/constants';
+import { useGetCookie } from '../helpers/useGetCookie';
 
 export const createPost = createAsyncThunk(
-  "posts/createPost",
+  'posts/createPost',
   async function (payload, { rejectWithValue }) {
-    const accessToken = useGetCookie("accessToken");
+    const accessToken = useGetCookie('accessToken');
     try {
       await axios.post(`${URL}/posts`, payload, {
         headers: {
@@ -19,7 +19,7 @@ export const createPost = createAsyncThunk(
   }
 );
 export const getPosts = createAsyncThunk(
-  "posts/getPosts",
+  'posts/getPosts',
   async function (_, { rejectWithValue }) {
     try {
       const posts = await axios
@@ -32,10 +32,24 @@ export const getPosts = createAsyncThunk(
     }
   }
 );
+export const getPostById = createAsyncThunk(
+  'posts/getPostById',
+  async function (payload, { rejectWithValue }) {
+    try {
+      const post = await axios
+        .get(`${URL}/posts/${payload}`)
+        .then((response) => response.data);
+      console.log(post);
+      return post;
+    } catch (error) {
+      rejectWithValue(error.message);
+    }
+  }
+);
 export const deletePost = createAsyncThunk(
-  "posts/deletePost",
+  'posts/deletePost',
   async function (payload, { dispatch, rejectWithValue }) {
-    const accessToken = useGetCookie("accessToken");
+    const accessToken = useGetCookie('accessToken');
     try {
       await axios
         .delete(`${URL}/posts/${payload}`, {
@@ -52,9 +66,9 @@ export const deletePost = createAsyncThunk(
   }
 );
 export const getMyPosts = createAsyncThunk(
-  "posts/getMyPosts",
+  'posts/getMyPosts',
   async function (_, { rejectWithValue }) {
-    const accessToken = useGetCookie("accessToken");
+    const accessToken = useGetCookie('accessToken');
     try {
       const posts = await axios
         .get(`${URL}/posts/my`, {
@@ -72,7 +86,7 @@ export const getMyPosts = createAsyncThunk(
 );
 
 const postsSlice = createSlice({
-  name: "posts",
+  name: 'posts',
   initialState: {
     posts: [],
     status: null,
@@ -81,43 +95,53 @@ const postsSlice = createSlice({
   reducers: {},
   extraReducers: {
     [createPost.pending]: (state) => {
-      (state.status = "loading"), (state.error = "null");
+      (state.status = 'loading'), (state.error = 'null');
     },
     [createPost.fulfilled]: (state) => {
-      state.status = "resolved";
+      state.status = 'resolved';
     },
     [createPost.rejected]: (state, action) => {
-      (state.status = "rejected"), (state.error = action.payload);
+      (state.status = 'rejected'), (state.error = action.payload);
     },
     [getPosts.pending]: (state) => {
-      (state.status = "loading"), (state.error = "null");
+      (state.status = 'loading'), (state.error = 'null');
     },
     [getPosts.fulfilled]: (state, action) => {
-      state.status = "resolved";
+      state.status = 'resolved';
       state.posts = action.payload;
     },
     [getPosts.rejected]: (state, action) => {
-      (state.status = "rejected"), (state.error = action.payload);
+      (state.status = 'rejected'), (state.error = action.payload);
+    },
+    [getPostById.pending]: (state) => {
+      (state.status = 'loading'), (state.error = 'null');
+    },
+    [getPostById.fulfilled]: (state, action) => {
+      state.status = 'resolved';
+      state.posts = action.payload;
+    },
+    [getPostById.rejected]: (state, action) => {
+      (state.status = 'rejected'), (state.error = action.payload);
     },
     [getMyPosts.pending]: (state) => {
-      (state.status = "loading"), (state.error = "null");
+      (state.status = 'loading'), (state.error = 'null');
     },
     [getMyPosts.fulfilled]: (state, action) => {
       console.log(action.payload);
-      state.status = "resolved";
+      state.status = 'resolved';
       state.posts = action.payload;
     },
     [getMyPosts.rejected]: (state, action) => {
-      (state.status = "rejected"), (state.error = action.payload);
+      (state.status = 'rejected'), (state.error = action.payload);
     },
     [deletePost.pending]: (state) => {
-      (state.status = "loading"), (state.error = "null");
+      (state.status = 'loading'), (state.error = 'null');
     },
     [deletePost.fulfilled]: (state) => {
-      state.status = "resolved";
+      state.status = 'resolved';
     },
     [deletePost.rejected]: (state, action) => {
-      (state.status = "rejected"), (state.error = action.payload);
+      (state.status = 'rejected'), (state.error = action.payload);
     },
   },
 });
