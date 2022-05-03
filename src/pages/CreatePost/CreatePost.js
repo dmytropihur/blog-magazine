@@ -44,6 +44,7 @@ export const CreatePost = () => {
   const handleSubmit = (values) => {
     console.log(values);
     const formData = new FormData();
+    formData.append("createdAt", new Date());
     formData.append("title", values.title);
     formData.append("description", values.description);
     formData.append("image", values.image);

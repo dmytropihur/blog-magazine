@@ -26,7 +26,6 @@ export const fetchUser = createAsyncThunk(
           },
         })
         .then((response) => response.data);
-      console.log(res);
       return res;
     } catch (error) {
       return rejectWithValue(error.message);

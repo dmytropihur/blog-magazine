@@ -1,21 +1,50 @@
-import styled from "@emotion/styled";
+import { Link } from "react-router-dom";
+import styled, { css } from "styled-components";
 
 export const Item = styled.li`
   list-style: none;
+  ${(props) => {
+    switch (props.$display) {
+      case "grid":
+        return css`
+          ${Wrapper} {
+            max-height: 436px;
+            height: 100%;
+            padding: 25px 20px 30px;
+          }
+          ${Img} {
+            border: 1px solid #979797;
+            width: 270px;
+            height: 185px;
+          }
+        `;
+      case "list":
+        return css`
+          display: flex;
+          margin-bottom: 30px;
+          border: 1px solid #979797;
+          ${Wrapper} {
+            padding: 80px 30px;
+            max-width: 300px;
+            width: 100%;
+          }
+          ${Img} {
+            border: none;
+            width: 870px;
+            height: 550px;
+          }
+        `;
+    }
+  }}
 `;
+
 export const Wrapper = styled.div`
+  color: #666666;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  max-height: 436px;
-  height: 100%;
-  padding: 25px 20px 30px;
-  color: #666666;
 `;
 export const Img = styled.img`
-  border: 1px solid #979797;
-  width: 270px;
-  height: 185px;
   display: block;
   object-fit: cover;
 `;
@@ -28,7 +57,6 @@ export const Title = styled.h3`
   margin-bottom: 30px;
 `;
 export const Description = styled.p`
-  max-width: 230px;
   height: 140px;
   font-size: 14px;
   line-height: 1.5;
@@ -49,12 +77,55 @@ export const Author = styled.span`
   display: inline-block;
   margin-bottom: 30px;
 `;
-export const Button = styled.button`
+export const Button = styled(Link)`
+  text-decoration: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 100%;
   height: 50px;
   color: #fff;
   border: none;
   border-radius: 5px;
-  background: #171717;
-  display: block;
+  background-color: #171717;
+  transition: all 0.3s ease-in-out;
+  &:hover {
+    border: 1px solid #171717;
+    background-color: #fff;
+    color: #171717;
+  }
+`;
+export const DeleteButton = styled.button`
+  text-decoration: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 50px;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  background-color: #fff;
+  border: 1px solid red;
+  color: red;
+  transition: all 0.3s ease-in-out;
+  &:hover {
+    background-color: red;
+    color: #fff;
+  }
+`;
+export const EditButton = styled(Button)`
+  background-color: #fff;
+  border: 1px solid #171717;
+  color: #171717;
+  transition: all 0.3s ease-in-out;
+  &:hover {
+    background-color: #171717;
+    color: #fff;
+  }
+`;
+export const Flex = styled.div`
+  display: flex;
+  justify-content: space-between;
+  column-gap: 15px;
 `;

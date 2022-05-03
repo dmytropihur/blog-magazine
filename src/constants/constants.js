@@ -7,6 +7,8 @@ export const SUPPORTED_IMAGE_FORMATS = [
   "image/png",
 ];
 
+export const dateFormat = "MMM d, yyyy";
+
 export const PHONE_REGEXP = RegExp(
   /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/
 );

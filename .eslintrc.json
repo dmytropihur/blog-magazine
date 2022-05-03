@@ -22,6 +22,10 @@
   "plugins": ["react", "prettier"],
   "rules": {
     "prettier/prettier": ["error", { "endOfLine": "auto" }],
+    "camelcase": [
+      "error",
+      { "properties": "never", "ignoreDestructuring": true }
+    ],
     "require-jsdoc": "off",
     "react/prop-types": [
       "off",
