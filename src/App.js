@@ -16,8 +16,6 @@ function App() {
     "accessToken",
     "refreshToken",
   ]);
-  console.log(accessToken);
-  console.log(refreshToken);
 
   useEffect(() => {
     const setNewTokens = (data) => {

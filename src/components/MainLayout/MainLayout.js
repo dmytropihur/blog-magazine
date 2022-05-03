@@ -21,7 +21,7 @@ export const MainLayout = ({ children }) => {
   );
 };
 
-const Content = styled.div`
+const Content = styled.main`
   padding: 20px;
   min-height: calc(100vh - 64px);
   display: flex;

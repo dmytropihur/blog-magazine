@@ -7,8 +7,7 @@ import { deleteCookies } from "../../helpers/deleteCookies";
 import { useUserState } from "../../helpers/useUserState";
 import { logout } from "../../store/userReducer";
 
-const { home, posts, login, registration, createPost } = ROUTES;
-console.log(home);
+const { home, posts, login, registration, createPost, myPosts } = ROUTES;
 
 export const NavBar = () => {
   const dispatch = useDispatch();
@@ -49,6 +48,9 @@ export const NavBar = () => {
                   <NavDropdown.Item href={createPost}>
                     Create Post
                   </NavDropdown.Item>
+                </LinkContainer>
+                <LinkContainer to={myPosts}>
+                  <NavDropdown.Item href={myPosts}>My Posts</NavDropdown.Item>
                 </LinkContainer>
                 <LinkContainer to={home}>
                   <NavDropdown.Item as="button" onClick={onLogout} href={home}>
