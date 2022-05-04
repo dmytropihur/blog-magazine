@@ -1,6 +1,6 @@
-import React from "react";
-import { ErrorMessage } from "formik";
-import { Form, FormGroup, FormLabel } from "react-bootstrap";
+import React from 'react';
+import { ErrorMessage } from 'formik';
+import { Form, FormGroup, FormLabel } from 'react-bootstrap';
 
 export const Input = ({ field, handleBlur, handleChange }) => {
   const { name, type, placeholder, label } = field;
@@ -16,7 +16,7 @@ export const Input = ({ field, handleBlur, handleChange }) => {
           onBlur={handleBlur}
         />
       </FormGroup>
-      <ErrorMessage name={name} />
+      {/* <ErrorMessage name={name} /> */}
     </>
   );
 };

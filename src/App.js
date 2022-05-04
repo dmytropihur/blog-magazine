@@ -32,7 +32,7 @@ function App() {
       dispatch(fetchUser(accessToken));
     } else if (refreshToken) {
       getTokens(refreshToken)
-        .then(setNewTokens)
+        .then((data) => setNewTokens(data))
         .then((token) => dispatch(fetchUser(token)));
 
       console.log("you have refresh token");
