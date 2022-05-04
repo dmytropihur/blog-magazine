@@ -50,7 +50,9 @@ export const EditPage = () => {
 
   console.log(posts);
 
-  const handleSubmit = () => {};
+  const handleSubmit = (data) => {
+    console.log(data);
+  };
 
   useEffect(() => {
     dispatch(getPostById(id));
